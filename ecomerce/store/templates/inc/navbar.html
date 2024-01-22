@@ -1,0 +1,81 @@
+{% load static %}
+<header style="background-color: #30343f">
+  <nav class="navbar navbar-expand-md">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}"
+        ><img
+          width="250"
+          height="60"
+          src="{% static 'img/branding/logo.svg' %}"
+          alt=""
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a
+              class="nav-link text-white text-uppercase"
+              href="{% url 'shop' %}"
+              
+            >
+              shop
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white text-uppercase" href="#">contacto</a>
+          </li>
+
+          {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{request.user}}
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %} %" href="#">Mis compras <i class="bi bi-cart"></i></a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item text-start"
+                aria-current="page"
+                href="#"
+                >Favoritos <i class="bi bi-bag-heart"></i
+              ></a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'cerrarsesion' %}">Cerrar sesión</a>
+            </li>
+          </ul>
+        </li>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a
+              class="nav-link text-white text-uppercase"
+              href="{% url 'iniciarsesion' %}"
+              >login</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

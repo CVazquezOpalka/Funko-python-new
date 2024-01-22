@@ -1,0 +1,74 @@
+{% extends 'layouts/main.html' %} {% block content %}
+<div class="bg-primary mb-3">
+  <div class="container p-4 d-flex">
+    <a
+      style="font-size: 20px"
+      href="{% url 'home' %}"
+      class="text-white text-capitalize me-2 nav-link"
+      >home /</a
+    >
+    <a
+      style="font-size: 20px"
+      href="{% url 'shop' %}"
+      class="text-white text-capitalize me-2 nav-link"
+    >
+      shop</a
+    >
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- SelectPicker -->
+      <form action="" method="POST" class="mt-2">
+        {% csrf_token %}<!--  -->
+        {% include 'inc/selectpicker.html' %}
+        <button type="submit" class="btn btn-primary float-end">Buscar</button>
+      </form>
+      <!-- end SelectPicker -->
+    </div>
+
+    <div class="col-md-9">
+      <div class="row gap-2">
+        {% for item in productos %}
+        <div class="col-md-3 mx-auto mb-3">
+          <a
+            style="text-decoration: none"
+            href="{% url 'verproducto' item.coleccion.name item.name %}"
+            ><div class="card shadow" style="width: 16rem">
+              <img class="card-top" src="{{item.img.url}}" />
+              <div class="card-body">
+                <p
+                  class="text-uppercase"
+                  style="font-size: 14px; margin-bottom: 0"
+                >
+                  {{item.coleccion.name}}
+                </p>
+                <h4 style="font-size: 16px" class="text-uppercase">
+                  {{item.name}}
+                </h4>
+                <p style="font-size: 14px; margin-bottom: 5px">
+                  $ {{item.precio | stringformat:"d"}}
+                </p>
+                <p
+                  class="text-uppercase"
+                  style="
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                    color: #1d84b5;
+                    font-weight: bold;
+                  "
+                >
+                  3 cuotas sin interes
+                </p>
+              </div>
+            </div></a
+          >
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'inc/paginacion.html' %} {% endblock content %}

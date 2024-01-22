@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Funko APP</title>
+    <!-- CUSTOM STYLES -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <!-- BOOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- BOOTSTRAP ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- ALERTIFY CSS -->
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"
+    />
+    <!-- Swiper JS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <style>
+      a * {
+        text-decoration: none;
+      }
+      .swiper {
+        width: 100%;
+        height: 300px;
+      }
+      #registro {
+        margin-top: 16px;
+        height: 485px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    {% include 'inc/navbar.html' %}
+    <!-- END NAVBAR -->
+    {% block content %} {% endblock content %}
+    <!-- FOOTER -->
+    {% include 'inc/footer.html' %}
+    <!-- END FOOTER -->
+    <!-- CUSTOM AND JQUERY -->
+    <script
+      type="text/javascript"
+      src="{% static 'JS/jquery-3.7.1.min.js' %}"
+    ></script>
+    <script type="text/javascript" src="{% static 'JS/custom.js' %}"></script>
+    <!-- ALERTIFY -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+      alertify.set("notifier", "position", "top-right");
+      {% for msg in messages %}
+        alertify.success("{{ msg }}");
+      {% endfor %}
+    </script>
+    <!-- SCRIPS BOOTSTRAP -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    {% block scrips %} {% endblock scrips %}
+  </body>
+</html>

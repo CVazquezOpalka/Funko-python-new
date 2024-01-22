@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* Globales */
+a {
+  font-weight: 500 !important;
+  
+}
+p {
+  font-weight: 400 !important;
+}
+body {
+  overflow-x: hidden;
+  font-family: "Raleway", sans-serif;
+}
+/* Banner */
+#banner {
+  width: 100%;
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+.funko_banner {
+  width: 100%;
+  object-fit: cover;
+  animation: animate 10s infinite ease-in-out forwards;
+}
+#banner .layer {
+  position: absolute;
+  top: 35px;
+  left: 50px;
+  width: 350px;
+  height: 180px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-evenly;
+}
+.layer h2 {
+  color: #fff !important;
+  text-transform: capitalize;
+}
+.layer p {
+  color: #fff;
+}
+.layer .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color:#30343f;
+  width: 180px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 300ms;
+}
+.layer .button:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Section */
+#funko_section {
+  min-height: 100vh;
+}
+.card_body {
+  width: 1000px;
+  margin: 0 auto;
+}
+.card {
+  margin: 0 auto !important;
+}
+/* Swiper JS */
+#swiper_js .swiper {
+  height: 450px;
+  overflow: hidden !important;
+}
+/* Registrarse */
+
+/* Footer */
+#footer {
+  width: 100%;
+  height: 240px;
+  background: #30343f;
+}
+#pagination {
+  width: 100%;
+  height: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.color-rojo {
+  width: 250px;
+  height: 50px;
+  background-color: red;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  font-weight: bold;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(-400px);
+  }
+  50% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(-400px);
+  }
+}
+
+#registro {
+  margin-top: 16px;
+  height: 400px;
+}

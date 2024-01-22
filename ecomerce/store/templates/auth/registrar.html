@@ -1,0 +1,51 @@
+{% extends 'layouts/main.html' %} {% block content %} {% load static %}
+<section id="registro">
+  
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mt-2 shadow">
+          <form action="" method="POST" class="p-4">
+            {% csrf_token %}
+            <div class="text-center"><h2 class="text-uppercase">crea tu cuenta</h2></div>
+            <hr />
+            <div class="form-group">
+              <label for="">Nombre de Usuario :</label>
+              {{form.username}}
+              {% if form.errors.username %}
+                <label class="text-danger">{{form.errors.username}}</label>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="">Email :</label>
+              {{form.email}}
+              {% if form.errors.email %}
+                <label class="text-danger">{{form.errors.email}}</label>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="">Contraseña :</label>
+              {{form.password1}}
+              {% if form.errors.password1 %}
+                <label class="text-danger">{{form.errors.password1}}</label>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="">Confirmar Contraseña</label>
+              {{form.password2}}
+              {% if form.errors.password2 %}
+                <label class="text-danger">{{form.errors.password2}}</label>
+              {% endif %}
+            </div>
+            <button class="btn btn-danger float-end shadow px-4 " style="font-weight: bold;">
+              Registrar
+            </button>
+          </form>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

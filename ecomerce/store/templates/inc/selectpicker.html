@@ -1,0 +1,12 @@
+<select
+  class="form-select form-select-sm mb-2 text-capitalize"
+  aria-label="Large select example"
+  name="coleccion"
+>
+  <option class="text-capitalize" selected>Seleccione una Colección</option>
+  {% for item in coleccion %}
+  <option class="text-capitalize" value="{{ item.name }}">
+    {{ item.name }}
+  </option>
+  {% endfor %}
+</select>
