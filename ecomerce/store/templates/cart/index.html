@@ -1,0 +1,89 @@
+{% extends 'layouts/main.html' %} {% block content %}
+<div class="bg-primary mb-3">
+  <div class="container p-4 d-flex">
+    <a
+      style="font-size: 20px"
+      href="{% url 'home' %}"
+      class="text-white text-capitalize me-2 nav-link"
+      >home /</a
+    >
+    <a
+      style="font-size: 20px"
+      href="{% url 'carrito' %}"
+      class="text-white text-capitalize me-2 nav-link"
+    >
+      Carrito de Compras 
+    </a>
+   
+  </div>
+</div>
+<div class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-body" id="cart-data">
+            {% if carrito %} 
+            {% for item in carrito %}
+            <div class="row" id="producto_data">
+              <div class="col-md-2 my-auto">
+                <img
+                  width="70px"
+                  height="70px"
+                  src="{{item.producto.img.url}}"
+                  alt="{{item.producto.name}}"
+                />
+              </div>
+              <div class="col-md-3 my-auto">
+                <h6>{{item.producto.name}}</h6>
+              </div>
+              <div class="col-md-2 my-auto">
+                <h6>$ {{item.producto.precio|stringformat:"d"}}</h6>
+              </div>
+              <div class="col-md 3 my-auto">
+                <input
+                  type="hidden"
+                  id="producto-id"
+                  value="{{item.producto_id}}"
+                />
+                {% csrf_token %} 
+                {% if item.producto.cantidad >= item.cantidad_requerida %}
+                <label for="Quantity" class="text-center">Cantidad</label>
+                <div class="input-group text-center mb-3" style="width: 130px">
+                  <button class="input-group-text changeQuantity decrement-btn">
+                    -
+                  </button>
+                  <input
+                    type="text"
+                    name="quantity"
+                    class="form-control qty-input text-center"
+                    value="1"
+                  />
+                  <button class="input-group-text changeQuantity increment-btn">
+                    +
+                  </button>
+                </div>
+                {% else %}
+                <h6>No hay stock disponible</h6>
+                {% endif %}
+              </div>
+              <div class="col-md-2 my-auto">
+                <button class="btn btn-danger" id="borrar-item">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+              </div>
+            </div>
+            <hr />
+            {% endfor %}
+            <a href="#" class="btn btn-outline-success float-end">Checkout</a>
+            {% else %}
+            <h4 class="text-center">Your cart is empty</h4>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,9 +1,4 @@
 {% extends 'layouts/main.html' %} {% block content %}
-<style>
-  * {
-    text-decoration: none;
-  }
-</style>
 <div class="bg-primary mb-3">
   <div class="container p-4 d-flex">
     <a
@@ -70,6 +65,11 @@
 
                 {% if producto.cantidad > 0 %}
                 <label for="" class="badge bg-success">In Stock</label>
+                <input
+                  type="hidden"
+                  value="{{producto.cantidad}}"
+                  id="stock-producto"
+                />
                 {% else %}
                 <label for="" class="badge bg-danger text-capitalize"
                   >out Stock</label
@@ -80,8 +80,8 @@
                     {% csrf_token %}
                     <input
                       type="hidden"
-                      value="{{product.id}}"
-                      class="prod_id"
+                      value="{{producto.id}}"
+                      id="producto_id"
                     />
                     <label class="Quantity">Quantity</label>
                     <div
@@ -90,9 +90,10 @@
                     >
                       <button class="input-group-text decrement-btn">-</button>
                       <input
+                        id="qty_input"
                         type="text"
                         name="quantity"
-                        class="form-control qty-input text-center"
+                        class="form-control text-center"
                         value="1"
                       />
                       <button class="input-group-text increment-btn">+</button>
@@ -103,13 +104,15 @@
 
                     {% if producto.cantidad > 0 %}
                     <button
-                      class="btn btn-primary me-3 float-start addToCartBtn"
+                      id="add-to-cart"
+                      class="btn btn-primary me-3 float-start"
                     >
                       Add to Cart <i class="bi bi-cart"></i>
                     </button>
                     {% endif %}
                     <button
-                      class="btn btn-success me-3 float-start addToWishList"
+                      id="add-to-wish"
+                      class="btn btn-success me-3 float-start"
                     >
                       Add to Wishlist <i class="bi bi-suit-heart"></i>
                     </button>
@@ -140,79 +143,7 @@
               </div>
             </div>
             <hr />
-            <div class="row d-flex justify-content-center">
-              <h3 class="text-center text-uppercase" style="text-decoration: underline">
-                Productos relacionados
-              </h3>
-             
-              <div class="col-md-10">
-                <div class="row d-flex align-item-center justify-content-center">
-                  <!-- Aca empieza -->
-                  <section class="container" id="swiper_js">
-                    <div class="swiper container mt-3">
-                      <!-- Additional required wrapper -->
-                      <div class="swiper-wrapper d-flex">
-                        {% for item in productos_relacionados %}
-                        <!-- Slides -->
-                        <div class="swiper-slide">
-                          <div class="col-md-4 justify-content-center">
-                            <a
-                              class="text-decoration-none"
-                              href="{% url 'verproducto' item.coleccion.name item.name %}"
-                              ><div class="card mx-4 " style="width: 16rem">
-                                <img class="card-top" src="{{item.img.url}}" />
-                                <div class="card-body">
-                                  <p
-                                    class="text-uppercase text-start"
-                                    style="font-size: 14px; margin-bottom: 0"
-                                  >
-                                    {{item.coleccion.name}}
-                                  </p>
-                                  <h4
-                                    style="font-size: 16px"
-                                    class="text-uppercase text-start"
-                                  >
-                                    {{item.name}}
-                                  </h4>
-                                  <p
-                                    style="
-                                      font-size: 14px;
-                                      margin-bottom: 5px;
-                                      text-align: start;
-                                    "
-                                  >
-                                    $ {{item.precio | stringformat:"d"}}
-                                  </p>
-                                  <p
-                                    class="text-uppercase text-start"
-                                    style="
-                                      font-size: 14px;
-                                      margin-bottom: 5px;
-                                      color: #1d84b5;
-                                      font-weight: bold;
-                                    "
-                                  >
-                                    3 cuotas sin interes
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                        {% endfor %}
-                      </div>
-                      <!-- If we need pagination -->
-                      <div class="swiper-pagination"></div>
-
-                      <!-- If we need navigation buttons -->
-                      <div class="swiper-button-prev"></div>
-                      <div class="swiper-button-next"></div>
-                    </div>
-                  </section>
-                  <!-- Aca termina -->
-                </div>
-              </div>
-            </div>
+            {% include 'inc/slider_view.html' %}
           </div>
         </div>
       </div>

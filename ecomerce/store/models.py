@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 import datetime
 import os
@@ -36,3 +37,19 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Carrito_de_Compras(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad_requerida = models.IntegerField(null=False, blank=False)
+    creado = models.DateTimeField(auto_now_add=True)
+
+
+class Lista_de_Deseos(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    creado = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.producto.name} - {self.creado}"

@@ -18,7 +18,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon text-white"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
@@ -48,13 +48,13 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %} %" href="#">Mis compras <i class="bi bi-cart"></i></a>
+              <a class="dropdown-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %} %" href="{% url 'carrito' %}">Mis compras <i class="bi bi-cart"></i></a>
             </li>
             <li>
               <a
                 class="dropdown-item text-start"
                 aria-current="page"
-                href="#"
+                href="{% url 'favoritos' %}"
                 >Favoritos <i class="bi bi-bag-heart"></i
               ></a>
             </li>
