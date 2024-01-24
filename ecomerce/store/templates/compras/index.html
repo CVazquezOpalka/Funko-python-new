@@ -1,0 +1,63 @@
+{% extends 'layouts/main.html' %}
+<!-- Content -->
+
+{% block content %}
+<div class="bg-primary mb-3">
+  <div class="container p-2 d-flex">
+    <a
+      style="font-size: 20px"
+      href="{% url 'home' %}"
+      class="text-white text-capitalize me-2 nav-link"
+      >home /</a
+    >
+    <a
+      style="font-size: 20px"
+      href="{% url 'miscompras' %}"
+      class="text-white text-capitalize me-2 nav-link"
+    >
+      Mis Compras
+    </a>
+  </div>
+</div>
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header">
+          <h3 class="text-center text-uppercase mb-0">Mis Ordenes de compra</h3>
+        </div>
+        <div class="card-body">
+          <table class="my-auto table table-bordered">
+            <thead>
+              <tr>
+                <th>Fecha de compra</th>
+                <th>Numero de tracking</th>
+                <th>Precio total</th>
+                <th>estado</th>
+                <th>Ver detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order %}
+              <tr>
+                <td>{{item.created_at}}</td>
+                <td>{{item.traking_no}}</td>
+                <td>$ {{item.precio_total|stringformat:"d"}}</td>
+                <td>{{item.status}}</td>
+                <td>
+                  <a
+                    href="{% url 'orderview' item.traking_no %}"
+                    class="text-center btn btn-primary"
+                    >Ver <i class="bi bi-eye"></i
+                  ></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

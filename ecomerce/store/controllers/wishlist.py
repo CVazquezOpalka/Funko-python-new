@@ -21,9 +21,11 @@ def agregar_producto_lista(request):
             try:
                 id_producto = int(request.POST.get("producto_id"))
                 producto = get_object_or_404(Producto, id=id_producto)
-                
+
                 if Lista_de_Deseos.objects.filter(user=request.user, producto=producto):
-                    return JsonResponse({"status": "El producto ya se encuentra en Favoritos"})
+                    return JsonResponse(
+                        {"status": "El producto ya se encuentra en Favoritos"}
+                    )
                 else:
                     Lista_de_Deseos.objects.create(user=request.user, producto=producto)
                     return JsonResponse({"status": "Producto agregado correctamente"})
@@ -32,3 +34,25 @@ def agregar_producto_lista(request):
         else:
             return JsonResponse({"status": "Debe ingresar al sitio para continuar"})
     return redirect("home")
+
+
+def borrar_de_favoritos(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            id_producto = int(request.POST.get("producto_id"))
+            if Lista_de_Deseos.objects.filter(
+                user=request.user, producto_id=id_producto
+            ):
+                item = Lista_de_Deseos.objects.filter(
+                    user=request.user, producto_id=id_producto
+                )
+                item.delete()
+                return JsonResponse({
+                    "status":"El producto fue removido de la lista"
+                })
+            else:
+                return JsonResponse(
+                    {"status": "El producto no se encuentra en la lista"}
+                )
+        else:
+            return JsonResponse({"status": "Debes iniciar sesion"})

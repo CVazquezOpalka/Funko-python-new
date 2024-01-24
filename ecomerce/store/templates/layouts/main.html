@@ -45,6 +45,9 @@
         margin-top: 16px;
         height: 485px;
       }
+      #wish, #cart {
+        min-height: calc(100vh - 342.5px);
+      }
     </style>
   </head>
   <body>
@@ -66,6 +69,7 @@
     <script>
       alertify.set("notifier", "position", "top-right");
       {% for msg in messages %}
+        alertify.defaults.theme.ok = "btn btn-primary";
         alertify.success("{{ msg }}");
       {% endfor %}
     </script>

@@ -12,6 +12,23 @@ def ver_carrito(request):
     return render(request, "cart/index.html", context)
 
 
+def actualizar_carrito(request):
+    if request.method == "POST":
+        print(request.POST)
+        id_producto = int(request.POST.get("producto_id"))
+        if Carrito_de_Compras.objects.filter(
+            user=request.user, producto_id=id_producto
+        ):
+            cantidad = int(request.POST.get("producto_cantidad"))
+            cart = Carrito_de_Compras.objects.get(
+                producto_id=id_producto, user=request.user
+            )
+            cart.cantidad_requerida = cantidad
+            cart.save()
+            return JsonResponse({"status": "Actualizado correctamente"})
+    return redirect("home")
+
+
 def remover_del_carrito(request):
     if request.method == "POST":
         id_producto = int(request.POST.get("producto_id"))

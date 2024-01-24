@@ -1,12 +1,29 @@
 {% extends 'layouts/main.html' %} {% block content %}
-<div class="py-5">
+<div class="bg-primary mb-3">
+  <div class="container p-4 d-flex">
+    <a
+      style="font-size: 20px"
+      href="{% url 'home' %}"
+      class="text-white text-capitalize me-2 nav-link"
+      >home /</a
+    >
+    <a
+      style="font-size: 20px"
+      href="{% url 'favoritos' %}"
+      class="text-white text-capitalize me-2 nav-link"
+    >
+      Favoritos
+    </a>
+  </div>
+</div>
+<section id="wish"><div class="py-5">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="card shadow">
-          <div class="card-body wishdata">
+          <div class="card-body" id="wish_data">
             {% if productos %} {% for item in productos %}
-            <div class="row product_data">
+            <div class="row" id="producto_data">
               <div class="col-md-2 my-auto">
                 <img
                   src="{{item.producto.img.url}}"
@@ -24,8 +41,8 @@
               <div class="col-md-3 my-auto">
                 <input
                   type="hidden"
-                  class="prod_id"
-                  value="{{item.product_id}}"
+                  id="producto_id"
+                  value="{{item.producto_id}}"
                 />
                 {% csrf_token %}
                 <a
@@ -50,5 +67,6 @@
       </div>
     </div>
   </div>
-</div>
+</div></section>
+
 {% endblock content %}
