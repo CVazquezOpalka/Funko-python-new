@@ -15,5 +15,5 @@ urlpatterns = [
     path("agregar-al-carrito", cart.agregar_al_carrito),
     path("borrar-del-carrito", cart.remover_del_carrito),
     path("favoritos/", wishlist.wishlist, name="favoritos"),
-    path("agregar-a-la-lista/", wishlist.agregar_producto_lista),
+    path("agregar-a-la-lista", wishlist.agregar_producto_lista),
 ]

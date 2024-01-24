@@ -1,7 +1,54 @@
-{% extends 'layouts/main.html' %}
+{% extends 'layouts/main.html' %} {% block content %}
+<div class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-body wishdata">
+            {% if productos %} {% for item in productos %}
+            <div class="row product_data">
+              <div class="col-md-2 my-auto">
+                <img
+                  src="{{item.producto.img.url}}"
+                  height="70px"
+                  width="70px"
+                  alt="image here"
+                />
+              </div>
+              <div class="col-md-3 my-auto">
+                <h6>{{item.producto.name}}</h6>
+              </div>
+              <div class="col-md-2 my-auto">
+                <h6>$ {{item.producto.precio}}</h6>
+              </div>
+              <div class="col-md-3 my-auto">
+                <input
+                  type="hidden"
+                  class="prod_id"
+                  value="{{item.product_id}}"
+                />
+                {% csrf_token %}
+                <a
+                  class="btn btn-primary"
+                  href="{% url 'verproducto' item.producto.coleccion.name item.producto.name %}"
+                  ><i class="bi bi-eye"></i> Detalle del producto</a
+                >
+              </div>
 
-{% block content %}
-    <h1>Favoritos</h1>
-    {{productos}}
+              <div class="col-md-2 my-auto">
+                <button id="delete-wishlist" class="btn btn-danger">
+                  <i class="bi bi-trash"></i> Eliminar
+                </button>
+              </div>
+            </div>
+            <hr />
+            {% endfor %} {% else %}
+            <h4 class="text-center">Tu lista de Favoritos esta vacia</h4>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
-    

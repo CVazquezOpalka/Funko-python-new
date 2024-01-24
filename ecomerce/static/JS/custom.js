@@ -46,24 +46,24 @@ $(document).ready(function () {
       },
     });
   });
-   $("#add-to-cart").click(function (e) {
-     e.preventDefault();
-     let prod_id = $(this).closest(".product_data").find("#producto_id").val();
-     let prod_qty = $(this).closest(".product_data").find("#qty_input").val();
-     let token = $("input[name=csrfmiddlewaretoken]").val();
-     $.ajax({
-       method: "POST",
-       url: "/agregar-al-carrito",
-       data: {
-         producto_id: prod_id,
-         producto_cantidad: prod_qty,
-         csrfmiddlewaretoken: token,
-       },
-       success: function (response) {
-         alertify.success(response.status);
-       },
-     });
-   });
+  $("#add-to-wish").click(function (e) {
+    e.preventDefault();
+    console.log("estoy aca");
+    let prod_id = $(this).closest(".product_data").find("#producto_id").val();
+    let token = $("input[name=csrfmiddlewaretoken]").val();
+    console.log(prod_id, token);
+    $.ajax({
+      method: "POST",
+      url: "/agregar-a-la-lista",
+      data: {
+        producto_id: prod_id,
+        csrfmiddlewaretoken: token,
+      },
+      success: function (response) {
+        alertify.success(response.status);
+      },
+    });
+  });
   $(document).on("click", "#borrar-item", function (e) {
     e.preventDefault();
     let prod_id = $(this).closest("#producto_data").find("#producto-id").val();
