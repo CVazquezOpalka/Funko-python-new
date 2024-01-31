@@ -5,6 +5,11 @@ from django.http import JsonResponse
 from store.models import *
 from django.contrib.auth.models import User
 import random
+import stripe
+from django.conf import settings
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+public_key = settings.STRIPE_PUBLIC_KEY
 
 
 @login_required(login_url="iniciarsesion")
@@ -18,7 +23,12 @@ def index(request):
     for item in items:
         total_a_pagar = total_a_pagar + (item.producto.precio * item.cantidad_requerida)
     userprofile = Profile.objects.filter(user=request.user).first()
-    context = {"cartitems": items, "total_price": total_a_pagar, "profile": userprofile}
+    context = {
+        "cartitems": items,
+        "total_price": total_a_pagar,
+        "profile": userprofile,
+        "key": public_key,
+    }
     return render(request, "pagar.html", context)
 
 
@@ -70,6 +80,7 @@ def placeorder(request):
             trackno = f"{request.user}" + str(random.randint(1111111, 9999999))
 
         neworder.traking_no = trackno
+        neworder.status = "Completed"  # Establecer el estado como "Completed"
         neworder.save()
 
         neworderitems = Carrito_de_Compras.objects.filter(user=request.user)
@@ -85,9 +96,42 @@ def placeorder(request):
             orderproduct = Producto.objects.filter(id=item.producto_id).first()
             orderproduct.cantidad = orderproduct.cantidad - item.cantidad_requerida
             orderproduct.save()
-        #Borramos el carrito
+        # Borramos el carrito
         Carrito_de_Compras.objects.filter(user=request.user).delete()
 
-        messages.success(request, "tu orden se proceso correctamente")
+        payMode = request.POST.get("payment_mode")
+        if payMode == "Pagado con Paypal":
+            return JsonResponse({"status": "su orden ah sido procesada con exito"})
+        else:
+            messages.success(request, "tu orden se proceso correctamente")
 
     return redirect("home")
+
+
+def create_checkout_session(request):
+    # Obtener el usuario actual
+    cart_items = Carrito_de_Compras.objects.filter(user=request.user)
+
+    # Construir la lista line_items
+    line_items = []
+    for item in cart_items:
+        line_item = {
+            "price_data": {
+                "currency": "usd",
+                "unit_amount": int(item.producto.precio * 100),  # Convertir a centavos
+                "product_data": {"name": item.producto.name},
+            },
+            "quantity": item.cantidad_requerida,
+        }
+        line_items.append(line_item)
+
+    # Crear la sesión de pago en Stripe
+    session = stripe.checkout.Session.create(
+        payment_method_types=["card"],
+        line_items=line_items,
+        mode="payment",
+        success_url=request.build_absolute_uri("/success/"),
+        cancel_url=request.build_absolute_uri("/cancel/"),
+    )
+
+    return JsonResponse({"id": session.id})

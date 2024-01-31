@@ -45,7 +45,8 @@
         margin-top: 16px;
         height: 485px;
       }
-      #wish, #cart {
+      #wish,
+      #cart {
         min-height: calc(100vh - 342.5px);
       }
     </style>
@@ -64,8 +65,10 @@
       src="{% static 'JS/jquery-3.7.1.min.js' %}"
     ></script>
     <script type="text/javascript" src="{% static 'JS/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'JS/checkout.js' %}"></script>
     <!-- ALERTIFY -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       alertify.set("notifier", "position", "top-right");
       {% for msg in messages %}
@@ -79,6 +82,6 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
-    {% block scrips %} {% endblock scrips %}
+    {% block scripts %} {% endblock scripts %}
   </body>
 </html>

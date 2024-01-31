@@ -1,0 +1,34 @@
+{% extends 'layouts/main.html' %} {% block content %}
+<h3 class="text-center my-3">Hola 👋! {{user.first_name}} {{user.last_name}}​</h3>
+<div class="container">
+  <div class="col-md-8 mx-auto">
+    <h3 class="text-center">Detalles de tu cuenta</h3>
+    <div class="container my-3">
+      <div class="row">
+        <div class="card shadow mb-4 mt-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="mt-2" for=""> Nombre</label>
+                <div class="border p-1">{{user.first_name}}</div>
+                <label class="mt-2" for=""> Apellido</label>
+                <div class="border p-1">{{user.last_name}}</div>
+                <label class="mt-2" for=""> Email</label>
+                <div class="border p-1">{{user.email}}</div>
+                <label class="mt-2" for="">Dirección</label>
+                <div class="border p-1">
+                  {{perfil.address}}- {{perfil.state}} -{{perfil.country}} -
+                  {{perfil.zipcode}}.
+                </div>
+                <label class="mt-2" for="">Telefono</label>
+                <div class="border p-1">{{perfil.phone}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

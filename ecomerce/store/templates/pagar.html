@@ -1,4 +1,4 @@
-{% extends 'layouts/main.html' %} {% block content %}
+{% extends 'layouts/main.html' %} {% load static %} {% block content %}
 <!-- Section -->
 <div class="bg-primary mb-3">
   <div class="container p-2 d-flex">
@@ -179,22 +179,24 @@
                 {% endfor %}
               </tbody>
             </table>
-            <h6 class="fw-bold">
-              Total Price:
-              <span class="float-end">${{total_price | stringformat:'d'}}</span>
-            </h6>
-            <input type="hidden" value="COD" name="payment_mode" />
-            <div class="mt-3">
-              <button type="submit" class="btn btn-success w-100">
-                COD | Place Order
-              </button>
-              <button type="button" class="btn btn-primary w-100 mt-2">
-                Pay whit Paypal
-              </button>
-              <button type="button" class="btn btn-secondary w-100 mt-2">
-                Pay whit Stripe
-              </button>
-            </div>
+            <form action="{% url 'create-checkout-session' %}" method="POST">
+              {% csrf_token %}
+              <h6 class="fw-bold">
+                Total Price:
+                <span class="float-end"
+                  >${{total_price | stringformat:'d'}}</span
+                >
+              </h6>
+              <input type="hidden" value="COD" name="payment_mode" />
+              <div class="mt-3">
+                <button type="submit" class="btn btn-success w-100">
+                  COD | Place Order
+                </button>
+
+                <div id="paypal-button-container" class="mt-2"></div>
+              </div>
+            </form>
+
             {% else %}
             <h4>Your cart is empty</h4>
             {% endif %}
@@ -203,7 +205,104 @@
       </div>
     </div>
   </form>
+  {{key}}
 </div>
-{% endblock content %}
-<!-- Scripts -->
-{% block scripts %} {% endblock scripts %}
+{% endblock content %} {% block scripts %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=ASIBWs3_tbF8an3Q7TnvT8OV1e_SLqn7pCGCTl2588wMsscOucaYhvEgjRskU0FnXiaG1OAVPciMUuV8&components=buttons"></script>
+
+<div id="paypal-button-container"></div>
+<script>
+  paypal
+    .Buttons({
+      style: {
+        layout: "vertical",
+        color: "black",
+      },
+      onClick: function (data, actions) {
+        //Mi Validacion
+        var fname = $("[name='fname']").val();
+        var lname = $("[name='lname']").val();
+        var email = $("[name='email']").val();
+        var phone = $("[name='phone']").val();
+        var address = $("[name='address']").val();
+        var city = $("[name='city']").val();
+        var state = $("[name='state']").val();
+        var country = $("[name='country']").val();
+        var zipcode = $("[name='zipcode']").val();
+        var token = $("[name='csrfmiddlewaretoken']").val();
+
+        if (
+          fname == "" ||
+          lname == "" ||
+          email == "" ||
+          phone == "" ||
+          address == "" ||
+          city == "" ||
+          state == "" ||
+          zipcode == "" ||
+          token == ""
+        ) {
+          swal.fire("Alert!", "Uno de los campos esta inclompleto", "error");
+          return false;
+        } else {
+          return true;
+        }
+      },
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: {
+                value: "{{total_price | stringformat:'d'}}",
+              },
+            },
+          ],
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (orderData) {
+          var fname = $("[name='fname']").val();
+          var lname = $("[name='lname']").val();
+          var email = $("[name='email']").val();
+          var phone = $("[name='phone']").val();
+          var address = $("[name='address']").val();
+          var city = $("[name='city']").val();
+          var state = $("[name='state']").val();
+          var country = $("[name='country']").val();
+          var zipcode = $("[name='zipcode']").val();
+          var token = $("[name='csrfmiddlewaretoken']").val();
+
+          data = {
+            fname: fname,
+            lname: lname,
+            email: email,
+            phone: phone,
+            address: address,
+            city: city,
+            state: state,
+            country: country,
+            zipcode: zipcode,
+            payment_mode: "Pagado con Paypal",
+            payment_id: orderData.id,
+            csrfmiddlewaretoken: token,
+          };
+          $.ajax({
+            method: "POST",
+            url: "/place-order",
+            data: data,
+            success: function (response) {
+              swal
+                .fire("congratulations!", response.status, "success")
+                .then((value) => {
+                  window.location.href = "/mis-compras";
+                });
+            },
+          });
+        });
+      },
+    })
+    .render("#paypal-button-container");
+</script>
+
+{% endblock scripts %}

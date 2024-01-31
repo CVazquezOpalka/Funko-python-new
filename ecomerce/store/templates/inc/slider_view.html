@@ -1,73 +1,72 @@
 <div class="row d-flex justify-content-center">
-              <h3 class="text-center text-uppercase" style="text-decoration: underline">
-                Productos relacionados
-              </h3>
-             
-              <div class="col-md-10">
-                <div class="row d-flex align-item-center justify-content-center">
-                  <!-- Aca empieza -->
-                  <section class="container" id="swiper_js">
-                    <div class="swiper container mt-3">
-                      <!-- Additional required wrapper -->
-                      <div class="swiper-wrapper d-flex">
-                        {% for item in productos_relacionados %}
-                        <!-- Slides -->
-                        <div class="swiper-slide">
-                          <div class="col-md-4 justify-content-center">
-                            <a
-                              class="text-decoration-none"
-                              href="{% url 'verproducto' item.coleccion.name item.name %}"
-                              ><div class="card mx-4 " style="width: 16rem">
-                                <img class="card-top" src="{{item.img.url}}" />
-                                <div class="card-body">
-                                  <p
-                                    class="text-uppercase text-start"
-                                    style="font-size: 14px; margin-bottom: 0"
-                                  >
-                                    {{item.coleccion.name}}
-                                  </p>
-                                  <h4
-                                    style="font-size: 16px"
-                                    class="text-uppercase text-start"
-                                  >
-                                    {{item.name}}
-                                  </h4>
-                                  <p
-                                    style="
-                                      font-size: 14px;
-                                      margin-bottom: 5px;
-                                      text-align: start;
-                                    "
-                                  >
-                                    $ {{item.precio | stringformat:"d"}}
-                                  </p>
-                                  <p
-                                    class="text-uppercase text-start"
-                                    style="
-                                      font-size: 14px;
-                                      margin-bottom: 5px;
-                                      color: #1d84b5;
-                                      font-weight: bold;
-                                    "
-                                  >
-                                    3 cuotas sin interes
-                                  </p>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        </div>
-                        {% endfor %}
-                      </div>
-                      <!-- If we need pagination -->
-                      <div class="swiper-pagination"></div>
-
-                      <!-- If we need navigation buttons -->
-                      <div class="swiper-button-prev"></div>
-                      <div class="swiper-button-next"></div>
+  <h3 class="text-center text-uppercase" style="text-decoration: underline">
+    Productos relacionados
+  </h3>
+  <div class="col-md-10">
+    <div class="row d-flex align-item-center justify-content-center">
+      <!-- Aca empieza -->
+      <section class="container" id="swiper_js">
+        <div class="swiper container mt-3">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper d-flex">
+            {% for item in productos_relacionados %}
+            <!-- Slides -->
+            <div class="swiper-slide">
+              <div class="col-md-4 justify-content-center">
+                <a
+                  class="text-decoration-none"
+                  href="{% url 'verproducto' item.coleccion.name item.name %}"
+                  ><div class="card mx-4" style="width: 16rem">
+                    <img class="card-top" src="{{item.img.url}}" />
+                    <div class="card-body">
+                      <p
+                        class="text-uppercase text-start"
+                        style="font-size: 14px; margin-bottom: 0"
+                      >
+                        {{item.coleccion.name}}
+                      </p>
+                      <h4
+                        style="font-size: 16px"
+                        class="text-uppercase text-start"
+                      >
+                        {{item.name}}
+                      </h4>
+                      <p
+                        style="
+                          font-size: 14px;
+                          margin-bottom: 5px;
+                          text-align: start;
+                        "
+                      >
+                        $ {{item.precio | stringformat:"d"}}
+                      </p>
+                      <p
+                        class="text-uppercase text-start"
+                        style="
+                          font-size: 14px;
+                          margin-bottom: 5px;
+                          color: #1d84b5;
+                          font-weight: bold;
+                        "
+                      >
+                        3 cuotas sin interes
+                      </p>
                     </div>
-                  </section>
-                  <!-- Aca termina -->
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
+            {% endfor %}
+          </div>
+          <!-- If we need pagination -->
+          <div class="swiper-pagination"></div>
+
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+      <!-- Aca termina -->
+    </div>
+  </div>
+</div>

@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "store",
+    "store.apps.StoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -39,12 +39,13 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "ecomerce.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "store/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -118,3 +119,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# STRIPE CHECKOUT
+
+STRIPE_PUBLIC_KEY = "pk_test_51OcazgJTyCUiLNKYgVUELV7soC9tHYxP6CykU5GjGa89ggyBHssJTjMTDW2Kz9b835fS8TA8OPSY8pSfERmnDVUf00arUJQVuJ"
+STRIPE_SECRET_KEY = "sk_test_51OcazgJTyCUiLNKYgXRXxtTkAonqm4HJjdfsRdmhyTlMijkNtYMjuxd0qvEx4x0ZXQciZm6iyKJXpCrDEY4nUAW100lVJu0rqh"

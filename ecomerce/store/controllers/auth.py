@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from store.forms import CustomUserForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from store.models import User, Profile, Oreden_de_pago
 
 
 def registrar(request):
@@ -41,3 +43,12 @@ def cerrar_sesion(request):
     logout(request)
     messages.success(request, "Has cerrado sesión")
     return redirect("home")
+
+
+@login_required
+def mi_cuenta(request):
+    user = User.objects.get(id=request.user.id)
+    perfil = Profile.objects.filter(user=request.user).first()
+    orden = Oreden_de_pago.objects.filter(user=request.user)
+    context = {"perfil": perfil, "user": user, "orden":orden}
+    return render(request, "auth/micuenta.html", context)
