@@ -1,5 +1,5 @@
 {% extends 'layouts/main.html' %} {% block content %}
-<div class="bg-primary mb-3">
+<div class="bg-primary mb-4">
   <div class="container p-2 d-flex">
     <a
       style="font-size: 20px"
@@ -18,12 +18,34 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 d-flex flex-column gap-3">
+      <form action="{% url 'buscar_producto'  %}" method="POST" id="buscar">
+        {% csrf_token %}
+        <label class="mb-2 text-uppercase" style="font-size: 20px" for=""
+          >Buscar producto</label
+        >
+        <div class="buscar d-flex">
+          <input
+          name="buscarproducto"
+          type="search"
+          id="tags"
+          required
+          class="form-control"
+          placeholder="Buscar un producto...."
+          style="width: 220px; height: 40px"
+        />
+        <button type="submit" class="btn btn-primary mx-auto block">
+          <i class="bi bi-search"></i></div>
+        
+        </button>
+      </form>
       <!-- SelectPicker -->
-      <form action="" method="POST" class="mt-2">
+      <form action="" method="POST">
         {% csrf_token %}<!--  -->
         {% include 'inc/selectpicker.html' %}
-        <button type="submit" class="btn btn-primary float-end">Buscar</button>
+        <button type="submit" class="btn btn-primary float-end">
+          ver colección
+        </button>
       </form>
       <!-- end SelectPicker -->
     </div>
@@ -70,5 +92,25 @@
     </div>
   </div>
 </div>
+{% include 'inc/paginacion.html' %}
+<!--  -->
+{% endblock content %}<!--  -->
+{% block scripts %}
 
-{% include 'inc/paginacion.html' %} {% endblock content %}
+<script>
+  $(function () {
+    var availableTags = [];
+
+    $.ajax({
+      method: "GET",
+      url:"/lista-de-productos",
+      success: function(response){
+        response.forEach(item=> availableTags.push(item))
+      }
+    })
+    $("#tags").autocomplete({
+      source: availableTags,
+    });
+  });
+</script>
+{% endblock scripts %}

@@ -1,3 +1,145 @@
-{% extends 'layouts/main.html' %} {% block content %} {% include 'inc/banner.html' %}
-<h1>Hello!</h1>
-{% endblock content %}
+{% extends 'layouts/main.html' %} {% block content %}
+<!-- Banner -->
+{% include 'inc/banner.html' %}
+<section id="inicio">
+  <div class="container my-3">
+    {% for item in productos %}
+    <div
+      class="d-flex {% if item.coleccion.name != 'Pokemon' %}flex-row-reverse{% endif %} justify-content-center mb-3"
+    >
+      <div class="col-md-4 d-flex justify-content-center">
+        <img
+          src="{{item.img.url}}"
+          class="card-img-top"
+          alt="imagen de muestra"
+        />
+      </div>
+      <div class="col-md-6 d-flex flex-column my-auto p-4">
+        <h1 class="mb-0 text-uppercase">{{item.name}}</h1>
+        <h1 class="mb-2 text-uppercase">{{item.coleccion.name}}</h1>
+        <p style="margin-bottom: 0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed nisi
+          alias ipsum voluptatibus nihil? Delectus similique dolore dolorum.
+          Nobis, quidem.
+        </p>
+        <hr style="background-color: red; height: 2px" />
+        <a
+          href="{% url 'vercoleccion' item.coleccion.name %}"
+          class="btn btn-secondary rounded-pill color-white text-uppercase"
+          style="width: 210px"
+          >ver colección</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+    <hr />
+    <h2 class="px-2 mb-3">Ultimos Lanzamientos</h2>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10">
+        <div class="row d-flex align-item-center justify-content-center">
+          <!-- Aca empieza -->
+          <section class="container" id="swiper_js">
+            <div class="swiper container mt-3">
+              <!-- Additional required wrapper -->
+              <div class="swiper-wrapper d-flex">
+                {% for item in productos_nuevos %}
+                <!-- Slides -->
+                <div class="swiper-slide">
+                  <div class="col-md-4 justify-content-center">
+                    <a
+                      class="text-decoration-none"
+                      href="{% url 'verproducto' item.coleccion.name item.name %}"
+                      ><div
+                        class="card mx-4"
+                        style="width: 16rem; position: relative"
+                      >
+                        <span
+                          class="badge bg-danger text-white text-center text-uppercase"
+                          style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 75px;
+                            line-height: 12px;
+                          "
+                          >nuevo</span
+                        >
+                        <img class="card-top" src="{{item.img.url}}" />
+                        <div class="card-body">
+                          <p
+                            class="text-uppercase text-start"
+                            style="font-size: 14px; margin-bottom: 0"
+                          >
+                            {{item.coleccion.name}}
+                          </p>
+                          <h4
+                            style="font-size: 16px"
+                            class="text-uppercase text-start"
+                          >
+                            {{item.name}}
+                          </h4>
+                          <p
+                            style="
+                              font-size: 14px;
+                              margin-bottom: 5px;
+                              text-align: start;
+                            "
+                          >
+                            $ {{item.precio | stringformat:"d"}}
+                          </p>
+                          <p
+                            class="text-uppercase text-start"
+                            style="
+                              font-size: 14px;
+                              margin-bottom: 5px;
+                              color: #1d84b5;
+                              font-weight: bold;
+                            "
+                          >
+                            3 cuotas sin interes
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <!-- If we need pagination -->
+              <div class="swiper-pagination"></div>
+
+              <!-- If we need navigation buttons -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </section>
+          <!-- Aca termina -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %} {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@6/swiper-bundle.min.js"></script>
+<script>
+  // Importa Swiper directamente desde el script
+  const swiper = new Swiper(".swiper", {
+    // Configuración de Swiper aquí
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    scrollbar: {
+      el: ".swiper-scrollbar",
+    },
+    autoplay: {
+      delay: 4000,
+    },
+    slidesPerView: 3,
+  });
+</script>
+{% endblock scripts %}

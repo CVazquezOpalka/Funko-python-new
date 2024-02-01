@@ -60,10 +60,14 @@ body {
 }
 .layer .button:hover {
   background: rgba(255, 255, 255, 0.5);
+  align-items: ;
 }
 
 /* Section */
 #funko_section {
+  min-height: 100vh;
+}
+#inicio{
   min-height: 100vh;
 }
 .card_body {

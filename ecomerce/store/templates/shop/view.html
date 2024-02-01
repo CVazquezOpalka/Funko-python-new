@@ -1,6 +1,4 @@
-{% extends 'layouts/main.html' %} 
-{% load static %}
-{% block content %}
+{% extends 'layouts/main.html' %} {% load static %} {% block content %}
 <div class="bg-primary mb-3">
   <div class="container p-2 d-flex">
     <a
@@ -152,8 +150,7 @@
     </div>
   </div>
 </div>
-{% endblock content %} 
-{% block scripts %}
+{% endblock content %} {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/swiper@6/swiper-bundle.min.js"></script>
 <script>
   // Importa Swiper directamente desde el script
@@ -171,7 +168,7 @@
       el: ".swiper-scrollbar",
     },
     autoplay: {
-      delay: 4000,
+      delay: 3000,
     },
     slidesPerView: 3,
   });
