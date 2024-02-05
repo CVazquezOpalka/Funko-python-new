@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from store.controllers import auth, cart, wishlist, pagar, compras
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -34,4 +36,6 @@ urlpatterns = [
     path("place-order", pagar.placeorder, name="placeorder"),
     path("success/", views.success, name="success"),
     path("cancel/", views.cancel, name="cancel"),
+    path("enviar-mensaje", views.agregar_comentario),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

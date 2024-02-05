@@ -9,3 +9,5 @@ admin.site.register(Carrito_de_Compras)
 admin.site.register(Profile)
 admin.site.register(Oreden_de_pago)
 admin.site.register(OrderItems)
+admin.site.register(Comentario)
+

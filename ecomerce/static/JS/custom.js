@@ -1,7 +1,6 @@
 $(document).ready(function () {
   /* TODO arregladas funciones de decremento e incremento */
   $(".increment-btn").click(function (e) {
-   
     e.preventDefault();
     let valor_inicial = $(this)
       .closest("#producto_data")
@@ -12,8 +11,8 @@ $(document).ready(function () {
     let stock_total = Number(
       $(this).closest("#producto_data").find("#stock-producto").val()
     );
-    stock_total = stock_total > 0 ? stock_total : 10
-    console.log(valor_inicial)
+    stock_total = stock_total > 0 ? stock_total : 10;
+    console.log(valor_inicial);
     if (value < stock_total) {
       value++;
       $(this).closest("#producto_data").find("#qty_input").val(value);
@@ -33,9 +32,6 @@ $(document).ready(function () {
       $(this).closest("#producto_data").find("#qty_input").val(value);
     }
   });
-  /* End TODO */
-  /*  */
-  /* Agregar al carrito y a la lista de deseos */
   $("#add-to-cart").click(function (e) {
     e.preventDefault();
     let prod_id = $(this).closest("#producto_data").find("#producto_id").val();
@@ -123,6 +119,29 @@ $(document).ready(function () {
       success: function (response) {
         alertify.success(response.status);
         $("#wish_data").load(location.href + " #wish_data");
+      },
+    });
+  });
+  $(document).on("click", "#submit", function (e) {
+    e.preventDefault();
+    let prod = $("#prod_id").val();
+    let input = $("#rating").val();
+    let msg = $("#opinion").val();
+    let token = $("input[name=csrfmiddlewaretoken]").val();
+    $.ajax({
+      method: "POST",
+      url: "/enviar-mensaje",
+      data: {
+        producto: prod,
+        rating: input,
+        comentario: msg,
+        csrfmiddlewaretoken: token,
+      },
+      success: function (response) {
+        input = $("#rating").val("0");
+        msg = $("#opinion").val("");
+        alertify.success(response.status);
+        $("#comentarios").load(location.href + " .box");
       },
     });
   });

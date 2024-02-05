@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -75,6 +76,11 @@ def ver_coleccion(request, categori):
     return render(request, "shop/coleccion.html", context)
 
 
+def convertir_a_estrellas(puntaje):
+    estrellas = [1] * puntaje + [0] * (5 - puntaje)
+    return estrellas
+
+
 def vista_producto(request, cat, nom):
     coleccion = get_object_or_404(Coleccion, name=cat)
     productos_relacionados = Producto.objects.filter(coleccion=coleccion).exclude(
@@ -83,10 +89,34 @@ def vista_producto(request, cat, nom):
     if Coleccion.objects.filter(name=cat).first():
         if Producto.objects.filter(name=nom):
             producto = Producto.objects.filter(name=nom).first()
+            msg = Comentario.objects.filter(
+                usuario_id=request.user.id, producto_id=producto.id
+            ).order_by("-creado")
+            lista_de_comentarios = []
+            longitud = max(len(msg), 1)
+
+            suma = 0
+            for i in msg:
+                suma = suma + i.puntaje
+                coments = {
+                    "mensaje": i.mensaje,
+                    "estrellas": convertir_a_estrellas(i.puntaje),
+                    "puntaje": i.puntaje,
+                    "creado": i.creado,
+                }
+                lista_de_comentarios.append(coments)
+
+            promedio = suma / longitud
+            estrellas_promedio = convertir_a_estrellas(int(promedio))
+
             context = {
                 "producto": producto,
                 "productos_relacionados": productos_relacionados,
+                "comentarios": lista_de_comentarios,
+                "promedio": promedio,
+                "estrellas_promedio": estrellas_promedio,
             }
+
             return render(request, "shop/view.html", context)
         else:
             messages.warning(request, "No se encontro el Producto")
@@ -121,6 +151,28 @@ def buscar_producto(request):
                     + producto_encontrado.name
                 )
     return redirect("shop")
+
+
+@login_required(login_url="iniciarsesion")
+def agregar_comentario(request):
+    if request.method == "POST":
+        idx = int(request.POST.get("producto"))
+        rating = int(request.POST.get("rating"))
+        msg = request.POST.get("comentario")
+        # encuentro el producto
+        producto = Producto.objects.get(id=idx)
+        # creo el comentario
+        comentario = Comentario.objects.create(
+            producto=producto, usuario=request.user, mensaje=msg, puntaje=rating
+        )
+
+        return JsonResponse(
+            {"status": "Su comentario ah sido agregado satisfactoriamente"}
+        )
+
+    return JsonResponse(
+        {"status": "su comentario no pudo ser enviado, vuelva a intentarlo"}
+    )
 
 
 # Stripe

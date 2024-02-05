@@ -1,28 +1,150 @@
 {% extends 'layouts/main.html' %} {% load static %} {% block content %}
+<style>
+  .wrapper {
+    background-color: #fff;
+    padding: 2rem;
+    max-width: 576px;
+    width: 100%;
+    border-radius: 0.75rem;
+    text-align: center;
+  }
+  .wrapper h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0.7rem;
+  }
+  .wrapper .rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 1rem;
+    font-size: 2rem;
+    color: #ffbd13;
+    margin-bottom: 0.75rem;
+  }
+  .rating .star {
+    cursor: pointer;
+  }
+  .rating .star.active {
+    opacity: 0;
+    animation: animate 0.5s calc(var(--i) * 0.1s) ease-in-out forwards;
+  }
+  .comentarios {
+    background-color: #fff;
+    padding: 2rem;
+    max-width: 576px;
+    width: 100%;
+    height: 385px;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+  .comentarios .box {
+    width: 100%;
+
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    border-radius: 10px;
+  }
+  .comentarios .box .calificacion .star.active {
+    color: #ffbd13;
+    fill: #ffbd13;
+  }
+  .box > * {
+    margin: 0 15px 0 15px;
+  }
+  .comentarios .box p {
+    text-align: justify;
+    font-size: 14px;
+  }
+  .comentarios .box .creado {
+    text-align: end;
+    font-size: 12px;
+  }
+  @keyframes animate {
+    0% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .rating .start:hover {
+    transform: scale(1.1);
+  }
+  textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.75em;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    resize: none;
+  }
+
+  .btn__group {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn__group .bt {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: none;
+    outline: none;
+    border-radius: 0.5em;
+    margin-top: 0.75em;
+    cursor: pointer;
+  }
+  .btn__group .bt.submit {
+    background-color: #0d6efd;
+    color: #fff;
+  }
+  .btn__group .bt.cancel {
+    color: #0d6efd;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  #promedio .star.active {
+    color: #ffbd13;
+  }
+  @media (max-width: 412px) {
+    .comentarios {
+      margin-bottom: 15px;
+    }
+  }
+</style>
 <div class="bg-primary mb-3">
   <div class="container p-2 d-flex">
     <a
-      style="font-size: 20px"
+      style="font-size: 14px"
       href="{% url 'home' %}"
       class="text-white text-capitalize me-2 nav-link"
       >home /</a
     >
     <a
-      style="font-size: 20px"
+      style="font-size: 14px"
       href="{% url 'shop' %}"
       class="text-white text-capitalize me-2 nav-link"
     >
       shop /
     </a>
     <a
-      style="font-size: 20px"
+      style="font-size: 14px"
       href="{% url 'vercoleccion' producto.coleccion.name %}"
       class="text-white text-capitalize me-2 nav-link"
     >
       {{producto.coleccion.name}} /</a
     >
     <a
-      style="font-size: 20px"
+      style="font-size: 14px"
       href="{% url 'verproducto' producto.coleccion.name producto.name %}"
       class="text-white text-capitalize me-2 nav-link"
     >
@@ -65,6 +187,16 @@
 
                 {% if producto.cantidad > 0 %}
                 <label for="" class="badge bg-success">In Stock</label>
+                <label for="" id="promedio" class="mx-3">
+                  {% for item in estrellas_promedio %}
+                  <i
+                    class="star bi bi-star{% if item == 1 %}-fill active{% endif %}"
+                  ></i>
+
+                  {% endfor %}<span
+                    >- {{promedio | stringformat:"d"}} ptos</span
+                  >
+                </label>
                 <input
                   type="hidden"
                   value="{{producto.cantidad}}"
@@ -125,20 +257,93 @@
             </div>
             <hr />
             <div class="row">
-              <div class="col-md-6">
-                <h3 class="text-center" style="text-decoration: underline">
-                  Descripción del producto
-                </h3>
+              <div class="col-md-12">
+                <h3 class="text-start">Descripción</h3>
                 <p class="mt-3" style="text-align: justify">
                   {{producto.descripcion}}
                 </p>
               </div>
-              <div class="col-md-6">
-                <h3 class="text-center" style="text-decoration: underline">
-                  Calificacion del producto
-                </h3>
-                <div class="row">
-                  <div class="col-md-12 bg-warning">aca van las reviw</div>
+              <hr />
+              <div class="col-md-12">
+                <h3 class="text-start mb-3">Opiniones del producto</h3>
+                <div class="col-md-12">
+                  <div class="row">
+                    {% if comentarios %}
+                    <div class="col-md-6">
+                      <div class="comentarios shadow" id="comentarios">
+                        {% for item in comentarios %}
+                        <div class="box shadow mb-3">
+                          <div class="d-flex gap-2">
+                            <span class="calificacion">
+                              {% for p in item.estrellas %}
+                              <i
+                                class="star bi bi-star{% if p == 1 %}-fill active{% endif %}"
+                              ></i>
+                              {% endfor %} </span
+                            ><span class="inline">
+                              - {{item.puntaje}} ptos.
+                            </span>
+                          </div>
+
+                          <p class="mensaje">{{ item.mensaje }}</p>
+                          <span class="creado">{{ item.creado }}</span>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="col-md-6" id="comentarios">
+                      <div class="box">
+                        <h4>No hay comentarios sobre este producto</h4>
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    <div
+                      class="col-md-6 d-flex align-items-center justify-content-center"
+                    >
+                      <div class="wrapper shadow">
+                        <h3>Dejanos tu comentario.</h3>
+                        <input
+                          type="hidden"
+                          id="prod_id"
+                          value="{{producto.id}}"
+                        />
+                        <form method="POST">
+                          {% csrf_token %}
+                          <div class="rating">
+                            <input
+                              type="hidden"
+                              name="rating"
+                              id="rating"
+                              value="0"
+                            />
+                            <i class="bi bi-star star" style="--i: 0"></i>
+                            <i class="bi bi-star star" style="--i: 1"></i>
+                            <i class="bi bi-star star" style="--i: 2"></i>
+                            <i class="bi bi-star star" style="--i: 3"></i>
+                            <i class="bi bi-star star" style="--i: 4"></i>
+                          </div>
+                          <textarea
+                            class="shadow"
+                            name="opinion"
+                            id="opinion"
+                            cols="30"
+                            rows="5"
+                            placeholder="Ingresa tu comentario..."
+                          ></textarea>
+                          <div class="btn__group">
+                            <button type="submit" id="submit" class="bt submit">
+                              Enviar
+                            </button>
+                            <button type="button" class="bt cancel">
+                              Cancelar
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -173,4 +378,25 @@
     slidesPerView: 3,
   });
 </script>
+<script>
+  const allStar = document.querySelectorAll(".rating .star");
+  const ratingValue = document.querySelector(".rating input");
+
+  allStar.forEach((item, index) => {
+    item.addEventListener("click", function () {
+      allStar.forEach((item, i) => {
+        if (i <= index) {
+          item.classList.replace("bi-star", "bi-star-fill");
+          item.classList.add("active");
+        } else {
+          item.classList.replace("bi-star-fill", "bi-star");
+          item.classList.remove("active");
+        }
+      });
+      // Establecer el valor del input
+      ratingValue.value = index + 1;
+    });
+  });
+</script>
+
 {% endblock scripts %}

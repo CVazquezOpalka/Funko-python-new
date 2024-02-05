@@ -34,9 +34,48 @@ class Producto(models.Model):
     tendencia = models.BooleanField(default=False, help_text="0=default, 1=Trending")
     tag = models.CharField(max_length=150, null=False, blank=False)
     creado = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
         return self.name
+
+
+class Comentario(models.Model):
+    producto = models.ForeignKey(
+        Producto, on_delete=models.CASCADE, related_name="comentarios"
+    )
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    puntaje = models.IntegerField(null=False, blank=False, default=0)
+    mensaje = models.TextField(max_length=500, null=False, blank=False)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.producto.name}"
+
+
+class Rating(models.Model):
+    producto = models.ForeignKey(
+        Producto, on_delete=models.CASCADE, related_name="ratings"
+    )
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    puntuacion = models.IntegerField(
+        default=0,
+        null=False,
+        blank=False,
+    )
+    creado = models.DateTimeField(auto_now_add=True)
+    estrellas = models.CharField(
+        default="0",
+        max_length=1,
+        choices=[
+            ("0", "0"),
+            ("1", "1"),
+            ("2", "2"),
+            ("3", "3"),
+            ("4", "4"),
+            ("5", "5"),
+        ],
+    )
 
 
 class Carrito_de_Compras(models.Model):

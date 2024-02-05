@@ -192,11 +192,9 @@
                 <button type="submit" class="btn btn-success w-100">
                   COD | Place Order
                 </button>
-
                 <div id="paypal-button-container" class="mt-2"></div>
               </div>
             </form>
-
             {% else %}
             <h4>Your cart is empty</h4>
             {% endif %}
@@ -205,13 +203,11 @@
       </div>
     </div>
   </form>
-  {{key}}
 </div>
 {% endblock content %} {% block scripts %}
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://www.paypal.com/sdk/js?client-id=ASIBWs3_tbF8an3Q7TnvT8OV1e_SLqn7pCGCTl2588wMsscOucaYhvEgjRskU0FnXiaG1OAVPciMUuV8&components=buttons"></script>
 
-<div id="paypal-button-container"></div>
 <script>
   paypal
     .Buttons({
