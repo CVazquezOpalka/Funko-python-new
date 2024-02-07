@@ -1,4 +1,10 @@
 {% load static %}
+<style>
+  #navtoggle{
+    font-size: 20px;
+    color: #fff;
+  }
+</style>
 <header style="background-color: #30343f">
   <nav class="navbar navbar-expand-md">
     <div class="container">
@@ -10,7 +16,7 @@
           alt=""
       /></a>
       <button
-        class="navbar-toggler border border-2 border-white"
+        class="navbar-toggler border border-2 border-white p-2"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarNav"
@@ -18,7 +24,9 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span id="navtoggle">
+          <i class="bi bi-list"></i>
+        </span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">

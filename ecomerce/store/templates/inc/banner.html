@@ -1,9 +1,33 @@
 {% load static %}
+<style>
+  @media (max-width: 767px) {
+    #banner {
+      width: 100%;
+    }
+    #banner .layer {
+      width: 80%;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: space-around !important;
+    }
+    #banner .layer p {
+      font-size: 15px;
+    }
+    .funko_banner {
+      animation: none;
+    }
+  }
+</style>
 <div id="banner" class="mb-3">
   <div class="layer">
     <h2>Nuevos Ingresos</h2>
     <p>Descubrí el próximo Funko Pop de tu colección</p>
     <a class="button" href="{% url 'shop' %}">shop</a>
   </div>
-  <img class="funko_banner" src="{% static 'img/funkos-banner.webp' %}" alt="" />
+  <img
+    class="funko_banner"
+    src="{% static 'img/funkos-banner.webp' %}"
+    alt=""
+  />
 </div>

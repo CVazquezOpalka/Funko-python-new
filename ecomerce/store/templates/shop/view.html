@@ -115,7 +115,7 @@
   #promedio .star.active {
     color: #ffbd13;
   }
-  @media (max-width: 412px) {
+  @media (max-width: 767px) {
     .comentarios {
       margin-bottom: 15px;
     }
@@ -249,9 +249,6 @@
                       Add to Wishlist <i class="bi bi-suit-heart"></i>
                     </button>
                   </div>
-                  <div class="col-md-9 bg-warning">
-                    aca va el recuadro de fotos
-                  </div>
                 </div>
               </div>
             </div>
@@ -269,7 +266,7 @@
                 <div class="col-md-12">
                   <div class="row">
                     {% if comentarios %}
-                    <div class="col-md-6">
+                    <div id="col_comentarios" class="col-md-6">
                       <div class="comentarios shadow" id="comentarios">
                         {% for item in comentarios %}
                         <div class="box shadow mb-3">
@@ -291,12 +288,7 @@
                         {% endfor %}
                       </div>
                     </div>
-                    {% else %}
-                    <div class="col-md-6" id="comentarios">
-                      <div class="box">
-                        <h4>No hay comentarios sobre este producto</h4>
-                      </div>
-                    </div>
+                    
                     {% endif %}
 
                     <div
@@ -376,7 +368,24 @@
       delay: 3000,
     },
     slidesPerView: 3,
-  });
+    breakpoints: {
+    // when window width is >= 320px
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 0
+    },
+    // when window width is >= 480px
+    480: {
+      slidesPerView: 1,
+      spaceBetween: 0
+    },
+    // when window width is >= 640px
+    640: {
+      slidesPerView: 3,
+      spaceBetween: 0
+    }
+  }
+  })
 </script>
 <script>
   const allStar = document.querySelectorAll(".rating .star");

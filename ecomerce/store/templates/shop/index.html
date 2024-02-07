@@ -1,4 +1,34 @@
 {% extends 'layouts/main.html' %} {% block content %}
+<style>
+  @media (max-width: 767px) {
+    #select {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      margin-bottom: 20px;
+    }
+    #select button {
+      display: inline-block !important;
+    }
+    #buscar {
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    #buscar .buscar {
+      gap: 10px !important
+    }
+    #buscar label {
+      display: none;
+    }
+    #buscar input {
+      width: 320px !important;
+    }
+  }
+</style>
 <div class="bg-primary mb-4">
   <div class="container p-2 d-flex">
     <a
@@ -26,21 +56,21 @@
         >
         <div class="buscar d-flex">
           <input
-          name="buscarproducto"
-          type="search"
-          id="tags"
-          required
-          class="form-control"
-          placeholder="Buscar un producto...."
-          style="width: 220px; height: 40px"
-        />
-        <button type="submit" class="btn btn-primary mx-auto block">
-          <i class="bi bi-search"></i></div>
-        
-        </button>
+            name="buscarproducto"
+            type="search"
+            id="tags"
+            required
+            class="form-control"
+            placeholder="Buscar un producto...."
+            style="width: 220px; height: 40px"
+          />
+          <button type="submit" class="btn btn-primary mx-auto block">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
       </form>
       <!-- SelectPicker -->
-      <form action="" method="POST">
+      <form action="" method="POST" id="select">
         {% csrf_token %}<!--  -->
         {% include 'inc/selectpicker.html' %}
         <button type="submit" class="btn btn-primary float-end">
@@ -103,11 +133,11 @@
 
     $.ajax({
       method: "GET",
-      url:"/lista-de-productos",
-      success: function(response){
-        response.forEach(item=> availableTags.push(item))
-      }
-    })
+      url: "/lista-de-productos",
+      success: function (response) {
+        response.forEach((item) => availableTags.push(item));
+      },
+    });
     $("#tags").autocomplete({
       source: availableTags,
     });

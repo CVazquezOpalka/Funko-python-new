@@ -1,10 +1,36 @@
 {% extends 'layouts/main.html' %} {% block content %}
 <!-- Banner -->
 {% include 'inc/banner.html' %}
+<style>
+  @media (max-width:767px){
+    #card_home{
+   
+      flex-direction: column !important;
+    }
+    #card_home img{
+      width: 280px;
+    }
+    #card_home .content{
+      align-items: center;
+    }
+    #card_home .content h1{
+      font-size: 30px;
+      margin-top: 0;
+    }
+    #card_home .content p{
+      margin: 0 auto;
+    }
+    #swiper_content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+</style>
 <section id="inicio">
   <div class="container my-3">
     {% for item in productos %}
-    <div
+    <div id="card_home"
       class="d-flex {% if item.coleccion.name != 'Pokemon' %}flex-row-reverse{% endif %} justify-content-center mb-3"
     >
       <div class="col-md-4 d-flex justify-content-center">
@@ -14,7 +40,7 @@
           alt="imagen de muestra"
         />
       </div>
-      <div class="col-md-6 d-flex flex-column my-auto p-4">
+      <div class="content col-md-6 d-flex flex-column my-auto p-4">
         <h1 class="mb-0 text-uppercase">{{item.name}}</h1>
         <h1 class="mb-2 text-uppercase">{{item.coleccion.name}}</h1>
         <p style="margin-bottom: 0">
@@ -45,7 +71,7 @@
                 {% for item in productos_nuevos %}
                 <!-- Slides -->
                 <div class="swiper-slide">
-                  <div class="col-md-4 justify-content-center">
+                  <div class="col-md-4 d-flex" id="swiper_content">
                     <a
                       class="text-decoration-none"
                       href="{% url 'verproducto' item.coleccion.name item.name %}"
@@ -140,6 +166,24 @@
       delay: 4000,
     },
     slidesPerView: 3,
+     spaceBetween: 0,
+    breakpoints: {
+    // when window width is >= 320px
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 0
+    },
+    // when window width is >= 480px
+    480: {
+      slidesPerView: 1,
+      spaceBetween: 0
+    },
+    // when window width is >= 640px
+    640: {
+      slidesPerView: 3,
+      spaceBetween: 0
+    }
+  }
   });
 </script>
 {% endblock scripts %}

@@ -1,7 +1,14 @@
+<style>
+  @media (max-width: 767px) {
+    #section_wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+</style>
 <div class="row d-flex justify-content-center">
-  <h3 >
-    Productos relacionados
-  </h3>
+  <h3>Productos relacionados</h3>
   <div class="col-md-10">
     <div class="row d-flex align-item-center justify-content-center">
       <!-- Aca empieza -->
@@ -11,7 +18,7 @@
           <div class="swiper-wrapper d-flex">
             {% for item in productos_relacionados %}
             <!-- Slides -->
-            <div class="swiper-slide">
+            <div class="swiper-slide" id="section_wrapper">
               <div class="col-md-4 justify-content-center">
                 <a
                   class="text-decoration-none"

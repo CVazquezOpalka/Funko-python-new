@@ -18,7 +18,6 @@ def get_file_path(request, filename):
 class Coleccion(models.Model):
     name = models.CharField(max_length=150, null=False, blank=False)
     created_at = models.DateField(auto_now_add=True)
-
     def __str__(self):
         return self.name
 
